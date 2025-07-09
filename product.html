@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Product Page</title>
+  <style>
+    body {
+      background-color: #1a1a2f;
+      font-family: 'Segoe UI', sans-serif;
+      color: #fff;
+      text-align: center;
+      padding: 2em;
+    }
+    .card {
+      background-color: #2f2f5f;
+      border: 2px solid #ffd75f;
+      padding: 2em;
+      border-radius: 12px;
+      max-width: 400px;
+      margin: auto;
+    }
+    h1 {
+      color: #ffd75f;
+    }
+    p {
+      font-size: 1em;
+      color: #ccc;
+    }
+    a {
+      color: #ffd75f;
+      display: block;
+      margin-top: 1em;
+    }
+    .download-btn {
+      margin-top: 1em;
+      display: inline-block;
+      padding: 0.5em 1em;
+      background-color: #ffd75f;
+      color: #1a1a2f;
+      font-weight: bold;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+    .download-btn:hover {
+      background-color: #ffe680;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1 id="product-title">Loading...</h1>
+    <p id="product-desc"></p>
+    <a href="store.html">⬅ Back to store</a>
+    <a id="product-download" href="#" download class="download-btn">⬇ Download</a>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    const products = {
+      pixelpetclientandserver: {
+        title: "(^._.^)ﾉ Pixel pet",
+        desc: "(^._.^)ﾉ pixel pet client and server",
+        file: "downloads/pixelpet.zip"
+      },
+      zekebroswer: {
+        title: "🔋 Zeke broswer",
+        desc: "our official browser",
+        file: "downloads/zekebroswer.zip"
+      },
+    };
+
+    const product = products[id];
+
+    if (product) {
+      document.getElementById("product-title").innerText = product.title;
+      document.getElementById("product-desc").innerText = product.desc;
+      document.getElementById("product-download").href = product.file;
+    } else {
+      document.getElementById("product-title").innerText = "❌ Product Not Found";
+      document.getElementById("product-desc").innerText = "Maybe Zeke deleted it for some reason.";
+      document.getElementById("product-download").style.display = "none";
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PikaStore Login</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1a1a2f, #2f2f5f);
+      color: #f5f5f5;
+      text-align: center;
+      padding: 2em;
+    }
+    h1 {
+      color: #ffd75f;
+      font-size: 2.5em;
+    }
+    input {
+      padding: 0.6em;
+      margin: 0.5em;
+      border-radius: 8px;
+      border: none;
+      width: 250px;
+    }
+    button {
+      padding: 0.6em 1.2em;
+      margin: 0.5em;
+      border-radius: 8px;
+      border: none;
+      background-color: #ffd75f;
+      color: #1a1a2f;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #auth-message {
+      margin-top: 1em;
+      font-style: italic;
+    }
+    a {
+      color: #ffd75f;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>⚡ Login to PikaStore</h1>
+  <input type="email" id="email" placeholder="Email" /><br>
+  <input type="password" id="password" placeholder="Password" /><br>
+  <button onclick="login()">Login</button>
+  <p id="auth-message">Not logged in</p>
+  <p>Don’t have an account? <a href="register.html">Register here</a></p>
+
+  <!-- Firebase SDKs (Classic v8) -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyD7olSi_O0r0Vh2SDGtPxp5j6ZGitRZ8PU",
+      authDomain: "pikastore-pikachu.firebaseapp.com",
+      databaseURL: "https://pikastore-pikachu-default-rtdb.firebaseio.com",
+      projectId: "pikastore-pikachu",
+      storageBucket: "pikastore-pikachu.appspot.com",
+      messagingSenderId: "94948792902",
+      appId: "1:94948792902:web:e985e39835064da2f04847",
+      measurementId: "G-5J8XDFBPNQ"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    function login() {
+      const email = document.getElementById("email").value;
+      const pass = document.getElementById("password").value;
+
+      auth.signInWithEmailAndPassword(email, pass)
+        .then(() => {
+          document.getElementById("auth-message").innerText = "✔️ Logged in!";
+          window.location.href = "store.html";
+        })
+        .catch(err => {
+          if (err.code === 'auth/user-not-found') {
+            document.getElementById("auth-message").innerText = "🚫 No account found. Try registering!";
+          } else if (err.code === 'auth/wrong-password') {
+            document.getElementById("auth-message").innerText = "🔐 Incorrect password.";
+          } else {
+            document.getElementById("auth-message").innerText = "❌ " + err.message;
+          }
+        });
+    }
+
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        document.getElementById("auth-message").innerText = `Welcome, ${user.email}`;
+      }
+    });
+  </script>
+
+</body>
+</html>
